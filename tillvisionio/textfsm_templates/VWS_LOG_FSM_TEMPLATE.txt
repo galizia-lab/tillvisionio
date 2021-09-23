@@ -1,0 +1,53 @@
+Value Required Label (.+)
+Value Required nPixelsX (\d+)
+Value Required nPixelsY (\d+)
+Value Bands (\d+)
+Value Slices (\d+)
+Value Frames (\d+)
+Value Required Datatype (\S+)
+Value Required Location ((\d| |:|\\|/|.|[A-Za-z])+)
+Value Required UTCTime (.+)
+Value Required Timing_ms (.+)
+Value AcquisitionDate (\d{2}/\d{2}/\d{2})
+Value StartTime (\d{2}:\d{2}:\d{2}.\d+ [A-Za-z]+)
+Value ExposureTime_ms (\d+)
+Value MonochromatorWL_nm (\d+)
+Value MonochromatorWLIncrement_nm (\d+)
+Value ImageType ([a-zA-z]+)
+Value HorizontalBinningFactor (\d+)
+Value VerticalBinningFactor (\d+)
+Value ChipWindowXPos (\d+)
+Value ChipWindowYPos (\d+)
+Value ChipWindowWidth (\d+)
+Value ChipWindowHeight (\d+)
+
+Start
+  ^\[${Label}\] -> DefaultMetadata
+
+DefaultMetadata
+  ^Size\s*:\s*${nPixelsX}\s*x\s*${nPixelsY}\s*${Bands}\s*band\(s\)\s*${Slices}\s*slice\(s\)\s*${Frames}\s*frame\(s\)
+  ^Size\s*:\s*${nPixelsX}\s*x\s*${nPixelsY}
+  ^Datatype\s*:\s*${Datatype}
+  ^Location:\s*${Location}
+  ^UTC\stime:\s*${UTCTime}
+  ^timing\s\[ms\]:\s*${Timing_ms}
+  ^<start\s*of\s*info> -> ExtraMetadata
+  
+ExtraMetadata
+  ^{AcquisitionDate}
+  ^Start\s*time\s*of\s*experiment\s*:\s*$StartTime}
+  ^Exposure\stime\s*\[ms\]\s*:\s*${ExposureTime_ms}
+  ^Monochromator\s*wavelength\s*\[nm\]\s*:\s*${MonochromatorWL_nm}
+  ^Monochromator\s*wavelength\s*increment\[nm\]\s*:\s*${MonochromatorWLIncrement_nm}
+  ^Image\s*type\s*:\s*${ImageType}
+  ^Horizontal\s*binning\s*factor\s*:\s*${HorizontalBinningFactor}
+  ^Vertical\s*binning\s*factor\s*:\s*${VerticalBinningFactor}
+  ^Chip\s*window\s*x-position\s*:\s*${ChipWindowXPos}
+  ^Chip\s*window\s*y-position\s*:\s*${ChipWindowYPos}
+  ^Chip\s*window\s*width\s*:\s*${ChipWindowWidth}
+  ^Chip\s*window\s*Height\s*:\s*${ChipWindowHeight}
+  ^<end\s*of\s*info> -> Record Start
+  
+
+
+
